@@ -1,9 +1,9 @@
-/**
- * A very simple method to retrieve the name of the default videocard of the system
- * using webgl.
- * 
- * @returns {Object}
- */
+
+const p = document.querySelector('p');
+
+
+
+
 function getVideoCardInfo() {
     const gl = document.createElement('canvas').getContext('webgl');
 
@@ -91,3 +91,5 @@ let Data = {
     theme: getTheme()
 }
 console.log(Data);
+
+p.innerHTML = Data.userAgent + Data.userAgent;
