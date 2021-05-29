@@ -1,9 +1,4 @@
 
-const gpu = document.querySelector('.gpu');
-const browser = document.querySelector('.browser');
-const screenUser = document.querySelector('.screen');
-const plate = document.querySelector(".plateforme");
-
 
 function getVideoCardInfo() {
     const gl = document.createElement('canvas').getContext('webgl');
@@ -54,15 +49,6 @@ function is_touch_device() {
     }  
 }
 
-function getBattery(){
-    navigator.getBattery().then(function(battery) {
-
-        return battery.level;
-    });
-}
-
-
-
 function getTheme() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         return "darkmode"
@@ -95,6 +81,14 @@ function plateforme() {
 }
 
 
+navigator.getBattery().then(function(battery) {
+
+    var charging = battery.charging;
+
+    document.querySelector('.charging').textContent = charging ;
+});
+
+
 
 
 let Data = {
@@ -103,16 +97,27 @@ let Data = {
     screenY: window.screen.width,
     browser: detectBrowser(),
     touchScreen: is_touch_device(),
-    battery: getBattery(),
     userAgent: window.navigator.userAgent,
     theme: getTheme(),
-    plateforme: plateforme() + detectMob()
+    plateforme: window.navigator.platform,
+    langue: window.navigator.language,
 }
 
 
-console.log(Data.plateforme)
 
-gpu.innerHTML += Data.gpu;
-browser.innerHTML += Data.browser;
-screenUser.innerHTML += `${Data.screenX} / ${Data.screenY}`;
-plate.innerHTML += Data.plateforme;
+
+connexionInfo = navigator.connection.downlink
+
+console.log(connexionInfo)
+
+const gpu = document.querySelector('.gpu').textContent = Data.gpu;
+const browser = document.querySelector('.browser').textContent = Data.browser;
+const screenUser = document.querySelector('.screen').textContent = `${Data.screenX} / ${Data.screenY}`;
+const plate = document.querySelector(".plateforme").textContent =  Data.plateforme;
+const langue = document.querySelector(".langue").textContent = Data.langue;
+const tactile = document.querySelector(".tactile").textContent = Data.touchScreen;
+const Theme = document.querySelector(".theme").textContent = Data.theme;
+const downspeed = document.querySelector(".downspeed").textContent = connexionInfo + ' Mb/S';
+
+
+
