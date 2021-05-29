@@ -1,7 +1,8 @@
 
-const p = document.querySelector('p');
-
-
+const gpu = document.querySelector('.gpu');
+const browser = document.querySelector('.browser');
+const screenUser = document.querySelector('.screen');
+const plate = document.querySelector(".plateforme");
 
 
 function getVideoCardInfo() {
@@ -60,13 +61,7 @@ function getBattery(){
     });
 }
 
-function getWindows(){
-    try {
-        window.navigator.appVersion.split("NT")[1].split(";")[0].trim()
-    } catch (e) {
-        return false;
-    }
-} 
+
 
 function getTheme() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -74,6 +69,29 @@ function getTheme() {
     } else {
         return "whitemode"
     }
+}
+
+function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+} 
+
+function plateforme() {
+    if (detectMob()) {
+        return "mobile";
+     } else {
+         return "pc";
+     }
 }
 
 
@@ -84,12 +102,17 @@ let Data = {
     screenX: window.screen.height,
     screenY: window.screen.width,
     browser: detectBrowser(),
-    windowsVersion: getWindows(),
     touchScreen: is_touch_device(),
     battery: getBattery(),
     userAgent: window.navigator.userAgent,
-    theme: getTheme()
+    theme: getTheme(),
+    plateforme: plateforme() + detectMob()
 }
-console.log(Data);
 
-p.innerHTML = Data.userAgent + Data.userAgent;
+
+console.log(Data.plateforme)
+
+gpu.innerHTML += Data.gpu;
+browser.innerHTML += Data.browser;
+screenUser.innerHTML += `${Data.screenX} / ${Data.screenY}`;
+plate.innerHTML += Data.plateforme;
